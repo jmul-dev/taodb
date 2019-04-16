@@ -1,0 +1,6 @@
+node_modules
+*.db
+*.swp
+*.swo
+yarn-error.log
+dump.rdb
