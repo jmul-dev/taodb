@@ -6,7 +6,7 @@ taodb is a fork of [aodb](https://gitlab.paramation.com/paramation-public/aodb),
 
 | Network       | Network ID | Discovery Key                                                    |
 | ------------- | :--------- | :--------------------------------------------------------------- |
-| rinkeby       | 4          | 6487fcf3160e0bf8b52b8afa64ff56242d759af43cdec46b4f1038a8b802bdfa |
+| rinkeby       | 4          | 3b0c9ac1b11cf613a57268c69d9cd37a382616e9be78ef5254ac7b9b016ff9eb |
 | local testrpc | 1985       | Use your local discovery key                                     |
 
 ## Usage
@@ -52,3 +52,4 @@ taodb.db.ready(async (err) => {
 | schema/%writerAddress%/AO/Content/\*/\*/signature                    | User Content                    |
 | schema/AO/Content/\*/\*/Hosts/%writerAddress%/\*/indexData/signature | Content Host                    |
 | schema/AO/Content/\*/\*/Hosts/%writerAddress%/\*/indexData           | Content Host indexData          |
+| schema/AO/Content/\*/\*/Hosts/%writerAddress%						   | Content Host timestamp          |
