@@ -46,6 +46,9 @@ class TAODB {
 			throw new Error("Invalid networkId");
 		}
 		switch (networkId) {
+			case 1:
+				self.web3 = new Web3(new Web3.providers.WebsocketProvider("wss://mainnet.infura.io/ws"));
+				break;
 			case 4:
 				self.web3 = new Web3(new Web3.providers.WebsocketProvider("wss://rinkeby.infura.io/ws"));
 				break;
