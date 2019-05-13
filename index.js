@@ -37,11 +37,12 @@ class TAODB {
 		self.localETHPrivateKey = key;
 		self.writerAddress = EthCrypto.publicKeyByPrivateKey(key);
 		self.writerKey = EthCrypto.publicKey.toAddress(self.writerAddress);
+		self.contractCaller = { from: self.writerKey };
 	}
 
 	async setNetworkId(networkId) {
 		const self = this;
-		if (networkId !== 4 && networkId !== 1985) {
+		if (networkId !== 1 && networkId !== 4 && networkId !== 1985) {
 			throw new Error("Invalid networkId");
 		}
 		switch (networkId) {
@@ -294,37 +295,42 @@ class TAODB {
 			if (!self.writerKey) {
 				reject("Unable to determine local writerKey");
 			}
+			if (!self.contractCaller) {
+				reject("Unable to determine the contract caller");
+			}
 			const splitKey = key.split("/");
 			const nameIdFieldIndex = splitKey.indexOf("nameId");
 			const taoIdFieldIndex = splitKey.indexOf("taoId");
 			if (nameIdFieldIndex >= 0 && nameIdFieldIndex + 1 < splitKey.length) {
 				const nameId = splitKey[nameIdFieldIndex + 1];
-				const isExist = await promisify(self.nameTAOPosition.methods.isExist(nameId).call)();
+				const isExist = await promisify(self.nameTAOPosition.methods.isExist(nameId).call)(self.contractCaller);
 				if (!isExist) {
 					reject("Invalid nameId:" + nameId);
 				}
 				// Check if local writerKey is the writerKey of the Name
 				if (self.web3.utils.isAddress(nameId) && nameId !== EMPTY_ADDRESS) {
-					const isNameWriterKey = await promisify(self.namePublicKey.methods.isNameWriterKey(nameId, self.writerKey).call)();
+					const isNameWriterKey = await promisify(self.namePublicKey.methods.isNameWriterKey(nameId, self.writerKey).call)(
+						self.contractCaller
+					);
 					if (!isNameWriterKey) {
 						reject("Local writerKey doesn't match Name's writerKey");
 					}
 				}
 			} else if (taoIdFieldIndex >= 0 && taoIdFieldIndex + 1 < splitKey.length) {
 				const taoId = splitKey[taoIdFieldIndex + 1];
-				const isExist = await promisify(self.nameTAOPosition.methods.isExist(taoId).call)();
+				const isExist = await promisify(self.nameTAOPosition.methods.isExist(taoId).call)(self.contractCaller);
 				if (!isExist) {
 					reject("Invalid taoId:" + taoId);
 				}
 				if (self.web3.utils.isAddress(taoId) && taoId !== EMPTY_ADDRESS) {
 					// Get the Advocate of this taoId
-					const advocateId = await promisify(self.nameTAOPosition.methods.getAdvocate(taoId).call)();
+					const advocateId = await promisify(self.nameTAOPosition.methods.getAdvocate(taoId).call)(self.contractCaller);
 
 					// Check if local writerKey is the writerKey of the Advocate
 					if (self.web3.utils.isAddress(advocateId) && advocateId !== EMPTY_ADDRESS) {
 						const isNameWriterKey = await promisify(
 							self.namePublicKey.methods.isNameWriterKey(advocateId, self.writerKey).call
-						)();
+						)(self.contractCaller);
 						if (!isNameWriterKey) {
 							reject("Local writerKey doesn't match Advocate's writerKey");
 						}
