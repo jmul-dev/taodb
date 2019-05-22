@@ -6,7 +6,7 @@ taodb is a fork of [aodb](https://gitlab.paramation.com/paramation-public/aodb),
 
 | Network       | Network ID | Discovery Key                                                    |
 | ------------- | :--------- | :--------------------------------------------------------------- |
-| rinkeby       | 4          | 942dceb5b1d3c049b49b9c56c4facfb920ea52843011dd339015db6ed34af47b |
+| rinkeby       | 4          | bacae97bbca5ecc8b625f23c15c8dc9ac0f12d83797028c73a4f382ffe2d2b81 |
 | local testrpc | 1985       | Use your local discovery key                                     |
 
 ## Usage
