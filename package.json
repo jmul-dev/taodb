@@ -1,13 +1,13 @@
 {
 	"name": "taodb",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "AO's TAO schema structure utilizing aodb",
 	"main": "index.js",
 	"repository": "https://gitlab.paramation.com/paramation-public/taodb",
 	"author": "Johan Mulyono",
 	"license": "MIT",
 	"dependencies": {
-		"ao-contracts": "git+ssh://git@git.y-designs.com:ao/ao-contracts.git#v1.0.16",
+		"ao-contracts": "git+ssh://git@git.y-designs.com:ao/ao-contracts.git#v1.0.17",
 		"aodb": "^1.1.5",
 		"dat-swarm-defaults": "^1.0.1",
 		"discovery-swarm": "^5.1.2",
