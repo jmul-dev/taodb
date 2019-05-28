@@ -242,9 +242,9 @@ anymatch@^2.0.0:
     micromatch "^3.1.4"
     normalize-path "^2.1.1"
 
-"ao-contracts@git+ssh://git@git.y-designs.com:ao/ao-contracts.git#v1.0.16":
-  version "1.0.10"
-  resolved "git+ssh://git@git.y-designs.com:ao/ao-contracts.git#98c1c1472f861344bc4c741969cfae4b114c0bb3"
+"ao-contracts@git+ssh://git@git.y-designs.com:ao/ao-contracts.git#v1.0.18":
+  version "1.0.18"
+  resolved "git+ssh://git@git.y-designs.com:ao/ao-contracts.git#5222f82c08b94f5718ee5455662ee8174676b9e3"
   dependencies:
     bignumber.js "^7.2.1"
     bn.js "^4.11.8"
