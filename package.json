@@ -1,6 +1,6 @@
 {
 	"name": "taodb",
-	"version": "1.0.7",
+	"version": "1.0.6",
 	"description": "AO's TAO schema structure utilizing aodb",
 	"main": "index.js",
 	"repository": "https://gitlab.paramation.com/paramation-public/taodb",
