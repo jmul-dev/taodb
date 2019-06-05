@@ -13,9 +13,11 @@ module.exports = (taodb, opts = {}) => {
 		opts
 	);
 	const swarm = discovery(swarmDefaults(swarmOpts));
-	if (opts && opts.port) {
-		swarm.listen(opts.port);
-	}
+	swarm.once("error", () => {
+		swarm.listen(0);
+	});
+	const DEFAULT_PORT = 60001;
+	swarm.listen(opts.port || DEFAULT_PORT);
 	swarm.join(dbKey);
 	swarm.on("connection", taodb.onConnection.bind(taodb));
 	return swarm;
