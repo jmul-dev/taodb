@@ -4,8 +4,8 @@ const inherits = require("inherits");
 const promisify = require("tiny-promisify");
 const EthCrypto = require("eth-crypto");
 const Web3 = require("web3");
-const NamePublicKey = require("ao-contracts/build/contracts/NamePublicKey.json");
-const NameTAOPosition = require("ao-contracts/build/contracts/NameTAOPosition.json");
+const NamePublicKey = require("ao-contracts/build/minified/NamePublicKey.json");
+const NameTAOPosition = require("ao-contracts/build/minified/NameTAOPosition.json");
 const EMPTY_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 class TAODB {
