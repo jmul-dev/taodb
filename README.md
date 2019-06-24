@@ -6,7 +6,7 @@ taodb is a fork of [aodb](https://gitlab.paramation.com/paramation-public/aodb),
 
 | Network       | Network ID | Discovery Key                                                    |
 | ------------- | :--------- | :--------------------------------------------------------------- |
-| rinkeby       | 4          | 1e38f880c1d4ecc9e92b34535fd8e89187ff1bd6bd729a99b087f5ea727c62a2 |
+| rinkeby       | 4          | 1d762d96be8112c01f82817528ece4e3e4a1adbc0e3eaedfe30e5018eae8ee32 |
 | local testrpc | 1985       | Use your local discovery key                                     |
 
 ## Usage
@@ -43,13 +43,14 @@ taodb.db.ready(async (err) => {
 
 ## Available Schemas
 
-| Key                                                                  | Value Description               |
-| -------------------------------------------------------------------- | :------------------------------ |
-| schema/TAO/this/nameId/\*/profileImage                               | Name's base64 profile image     |
-| schema/TAO/this/taoId/\*/description/timestamp/%number%              | TAO Description                 |
-| schema/TAO/this/taoId/\*/thoughts/thoughtId/%number%/nameId/\*       | Name's Thought for specific TAO |
-| schema/TAO/this/nameId/\*/taoId/\*/thoughts/thoughtId/%number%       | Pointer key to ^^               |
-| schema/%writerAddress%/AO/Content/\*/\*/signature                    | User Content                    |
-| schema/AO/Content/\*/\*/Hosts/%writerAddress%/\*/indexData/signature | Content Host                    |
-| schema/AO/Content/\*/\*/Hosts/%writerAddress%/\*/indexData           | Content Host indexData          |
-| schema/AO/Content/\*/\*/Hosts/%writerAddress%                        | Content Host timestamp          |
+| Key                                                                  | Value Description                   |
+| -------------------------------------------------------------------- | :---------------------------------- |
+| schema/TAO/this/nameId/\*/profileImage                               | Name's base64 profile image         |
+| schema/TAO/this/taoId/\*/description/timestamp/%number%              | TAO Description                     |
+| schema/TAO/this/taoId/\*/thoughts/thoughtId/%number%/nameId/\*       | Name's Thought for specific TAO     |
+| schema/TAO/this/nameId/\*/taoId/\*/thoughts/thoughtId/%number%       | Pointer key to ^^                   |
+| schema/TAO/this/nameLookup/\*/id                                     | Name/TAO's actual name to ID lookup |
+| schema/%writerAddress%/AO/Content/\*/\*/signature                    | User Content                        |
+| schema/AO/Content/\*/\*/Hosts/%writerAddress%/\*/indexData/signature | Content Host                        |
+| schema/AO/Content/\*/\*/Hosts/%writerAddress%/\*/indexData           | Content Host indexData              |
+| schema/AO/Content/\*/\*/Hosts/%writerAddress%                        | Content Host timestamp              |
