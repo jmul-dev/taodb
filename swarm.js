@@ -24,13 +24,13 @@ module.exports = async (taodb, opts = {}) => {
 	swarm.listen(opts.port || availablePort);
 	swarm.join(dbKey);
 	swarm.on("connection", (connection, info) => {
-		debug(`Connected to peer ${connection.id.toString("hex")}`);
-		debug(`Connected Peer ${swarm.connected}`);
+		debug(`Connected to peer: ${connection.id.toString("hex")}`);
+		debug(`Peers Connected: ${swarm.connected}`);
 		taodb.onConnection.bind(taodb);
 	});
 	swarm.on("connection-closed", (connection, info) => {
-		debug(`Disconnected from peer ${connection.id.toString("hex")}`);
-		debug(`Connected Peer ${swarm.connected}`);
+		debug(`Disconnected from peer: ${connection.id.toString("hex")}`);
+		debug(`Peers Connected: ${swarm.connected}`);
 	});
 	return swarm;
 };
