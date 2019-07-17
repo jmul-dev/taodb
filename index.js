@@ -4,6 +4,8 @@ const inherits = require("inherits");
 const promisify = require("tiny-promisify");
 const EthCrypto = require("eth-crypto");
 const Web3 = require("web3");
+const Debug = require("debug");
+const debug = Debug(`taodb:db`);
 const NamePublicKey = require("ao-contracts/build/minified/NamePublicKey.json");
 const NameTAOPosition = require("ao-contracts/build/minified/NameTAOPosition.json");
 const EMPTY_ADDRESS = "0x0000000000000000000000000000000000000000";
@@ -18,7 +20,7 @@ class TAODB {
 		try {
 			self.setLocalETHPrivateKey(localETHPrivateKey);
 		} catch (e) {
-			console.log(e);
+			debug(`Error: Unable to set local private key, ${e.message}`);
 			return false;
 		}
 		self.networkId = null;
@@ -77,10 +79,8 @@ class TAODB {
 	 */
 	onConnection(peer) {
 		const self = this;
-		console.log("Peer connected: " + peer.id.toString("hex"));
-
 		if (!peer.remoteUserData) {
-			console.log("Missing remote peer user data");
+			debug(`Error: Missing remote peer user data`);
 			return;
 		}
 
@@ -88,7 +88,7 @@ class TAODB {
 		try {
 			remoteUserData = JSON.parse(peer.remoteUserData);
 		} catch (e) {
-			console.log(e);
+			debug(`Error: Unable to parse remote user data, ${e.message}`);
 			return;
 		}
 
@@ -97,7 +97,7 @@ class TAODB {
 			!remoteUserData.hasOwnProperty("writerAddress") ||
 			!remoteUserData.hasOwnProperty("writerSignature")
 		) {
-			console.log("Remote user data is missing key/writerAddress/writerSignature properties");
+			debug(`Error: Remote user data is missing key/writerAddress/writerSignature properties`);
 			return;
 		}
 		const remotePeerKey = Buffer.from(remoteUserData.key);
@@ -109,25 +109,25 @@ class TAODB {
 			})
 		);
 		if (signer !== remoteUserData.writerAddress) {
-			console.log("Signer does not match the writerAddress. Will not authorize the connected peer: " + peer.id.toString("hex"));
+			debug(`Error: Signer does not match the writerAddress. Will not authorize the connected peer: ${peer.id.toString("hex")}`);
 			return;
 		}
 
 		self.db.authorized(remotePeerKey, (err, auth) => {
 			if (err) {
-				console.log(err);
+				debug(`Error: Unable to authorize peer, ${err}`);
 				return;
 			}
 			if (!auth) {
 				self.db.authorize(remotePeerKey, (err) => {
 					if (err) {
-						console.log(err);
+						debug(`Error: Unable to authorize peer, ${err}`);
 						return;
 					}
-					console.log(peer.id.toString("hex"), " was just authorized");
+					debug(`${peer.id.toString("hex")} was just authorized`);
 				});
 			} else {
-				console.log(peer.id.toString("hex"), " authorized");
+				debug(`${peer.id.toString("hex")} was authorized`);
 			}
 		});
 	}
@@ -246,10 +246,10 @@ class TAODB {
 		return new Promise((resolve, reject) => {
 			const watcher = this.db.watch(key, () => {});
 			watcher.on("watching", () => {
-				console.log("Watching for change on key: " + key);
+				debug(`Watching for change on key: ${key}`);
 			});
 			watcher.on("change", () => {
-				console.log("Detected change on key: " + key);
+				debug(`Detected change on key: ${key}`);
 				watcher.destroy();
 				resolve();
 			});

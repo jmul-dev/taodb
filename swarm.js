@@ -17,14 +17,20 @@ module.exports = async (taodb, opts = {}) => {
 	);
 	const swarm = discovery(swarmDefaults(swarmOpts));
 	swarm.once("error", () => {
+		debug(`Connected to peer ${connection.id.toString("hex")}`);
 		swarm.listen(0);
 	});
 	const availablePort = await getPort();
 	swarm.listen(opts.port || availablePort);
 	swarm.join(dbKey);
-	swarm.on("connection", taodb.onConnection.bind(taodb));
+	swarm.on("connection", (connection, info) => {
+		debug(`Connected to peer ${connection.id.toString("hex")}`);
+		debug(`Connected Peer ${swarm.connected}`);
+		taodb.onConnection.bind(taodb);
+	});
 	swarm.on("connection-closed", (connection, info) => {
-		debug(`You have been disconnected`);
+		debug(`Disconnected from peer ${connection.id.toString("hex")}`);
+		debug(`Connected Peer ${swarm.connected}`);
 	});
 	return swarm;
 };
