@@ -5,9 +5,10 @@ const Debug = require("debug");
 const debug = Debug(`taodb:swarm`);
 
 module.exports = async (taodb, opts = {}) => {
+	const dbKey = taodb.db.key.toString("hex");
 	const swarmOpts = Object.assign(
 		{
-			id: taodb.db.local.key,
+			id: dbKey,
 			stream: (peer) => {
 				return taodb.replicate();
 			}
@@ -20,8 +21,7 @@ module.exports = async (taodb, opts = {}) => {
 	});
 	const availablePort = await getPort();
 	swarm.listen(opts.port || availablePort);
-	const dbKey = taodb.addr || taodb.db.key;
-	swarm.join(dbKey.toString("hex"));
+	swarm.join(dbKey);
 	swarm.on("connection", taodb.onConnection.bind(taodb));
 	swarm.on("connection-closed", (connection, info) => {
 		debug(`Disconnected from peer: ${connection.id.toString("hex")}`);
